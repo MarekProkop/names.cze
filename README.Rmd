@@ -1,0 +1,88 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# names.cze
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+So far, R package *names.cze* can only do one thing: estimate the gender of people living in the Czech Republic from their names. This is a first preview, a more robust solution and more features will come later.
+
+## Installation
+
+You can install the preview version from GitHub:
+
+``` r
+devtools::install_github("MarekProkop/names.cze")
+```
+
+## Examples
+
+Guess the gender of a single name:
+
+```{r example-1}
+library(names.cze)
+get_sex("Josef")
+get_sex("Nováková")
+```
+
+The *get_sex* function is vectorized:
+
+```{r example-2}
+get_sex(c("Jan", "Jana", "Petr", "Petra"))
+```
+
+Using with dplyr:
+
+```{r example-3}
+library(dplyr, quietly = TRUE)
+df <- tibble(
+  name = c("Jan", "Jitka", "Soňa", "Michal", "Radovan")
+)
+df %>% 
+  mutate(sex = get_sex(name))
+```
+
+Using with ggplot2:
+
+```{r example-4}
+library(ggplot2, quietly = TRUE)
+df %>% 
+  ggplot(aes(get_sex(name))) +
+  geom_bar() +
+  labs(x = "gender")
+```
+
+Without additional parameters, the *get_sex* function returns the gender that is more common among name bearers in the Czech Republic. If you want more certainty, use the threshold parameter, which is a number from 0 to 1 indicating the minimum probability. If the actual probability does not exceed this value (or at least does not equal it), the function returns NA.
+
+```{r example-5}
+get_sex("Rut")
+get_sex("Rut", threshold = 0.9)
+```
+
+If you have both first and last names stored in one variable, the *get_sex* function will not work because it only works with one-word names for now. In this case, send only the first name to the function, as this generally has a better predictive value. For example, you can use the *word* function from the *stringr* package.
+
+```{r example-6}
+get_sex("Josef Novák")
+library(stringr, quietly = TRUE)
+get_sex(word("Josef Novák"))
+```
+
+For debugging purposes, you can use the inspect_name function. It is not vectorized, so you can only pass one name to it.
+
+```{r example-7}
+inspect_name("Václav")
+```
+

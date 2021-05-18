@@ -1,12 +1,12 @@
 Package: names.cze
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Get Information on Personal Names Used in the Czech Republic
+Version: 0.0.0.1
+Author: Marek Prokop
+Maintainer: Marek Prokop <mprokop@prokopsw.cz>
+Description: Frequency table of personal names in the Czech Republic.
+    Guess type (forename, surname) or sex (male, female) of any name.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Depends: 
@@ -14,3 +14,8 @@ Depends:
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+RoxygenNote: 7.1.1
+Imports: 
+    magrittr,
+    dplyr,
+    tidyr
